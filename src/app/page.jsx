@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import axios from "axios";
 import { nanoid } from "nanoid";
 import SearchInput from "./components/SearchInput";
@@ -17,6 +17,7 @@ export default function Home({ darkMode }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [loaded, setLoaded] = useState(false);
+  const [audioClip, setAudioClip] = useState()
 
   async function fetchData(value) {
     setLoaded(false);
@@ -65,11 +66,12 @@ export default function Home({ darkMode }) {
     )?.audio;
   }
 
-  const audio = new Audio();
-  audio.src = audioSrc;
+  useEffect(() => {
+    setAudioClip(new Audio(audioSrc))
+  },[loaded])
 
   const voicePlay = () => {
-    audio.play();
+    audioClip.play();
   };
 
   return (
